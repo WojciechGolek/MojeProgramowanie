@@ -1,0 +1,2 @@
+Program dla rozrywki.
+Użytkownik losuje trzy liczby z przedziału 1-20 (przdział mały, żeby zwiększyć prawodopodobieństwo wygranej). System losuje trzy liczby i są nastepnie porównywanane z podanymi przez usera. Wyświetlana jest zgodność jako wynik zabawy. Program działa na życzenie w pętli wiecznej.  
