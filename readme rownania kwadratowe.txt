@@ -1,0 +1,2 @@
+Program służy do rozwiązania równania kwadratowego, może być pomocny przy wykonywaniu zadać z matematyki na poziomie szkoły średniej jako kontrola wykonywanego "ręcznie" zadania.
+Użytkownik podaje parametry równania według podanego szyku, które są następnie przekazywane do utworzenia instancji klasy QuadEquation i wykonania obliczeń. Uwzględnione zostały przypadki szczególne rozwiązań , zależne od paremetrów wstępnych.
