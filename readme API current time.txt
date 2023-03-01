@@ -1,0 +1,1 @@
+Program wykorzystujący połączenie z ogólnodostępnym API. Po podaniu przez użytkownika współrzędnych geograficznych, jest wyświetlany czas lokalny.
