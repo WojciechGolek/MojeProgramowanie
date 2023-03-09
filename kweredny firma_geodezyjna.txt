@@ -1,0 +1,43 @@
+zapytania do bazy firma_geodezyjna.sql
+1.Jacy zlecenia wykonuja poszczególni pracownicy i kiedy rozpoczęły się zlecenia?
+
+SELECT pracownicy.imie, pracownicy.nazwisko, roboty_geodezyjne.id_roboty, roboty_geodezyjne.KERG_roboty, przebieg_roboty.data_rozpoczecia 
+FROM pracownicy 
+INNER JOIN zespol_roboczy on pracownicy.id_pracownika=zespol_roboczy.id_pracownika 
+INNER JOIN roboty_geodezyjne on roboty_geodezyjne.id_roboty=zespol_roboczy.id_roboty 
+INNER JOIN przebieg_roboty on roboty_geodezyjne.id_roboty=przebieg_roboty.id_roboty
+
+2. Uszereguj pracowników zgodnie z obciążeniem trwającymi zleceniami.
+SELECT pracownicy.imie, pracownicy.nazwisko, COUNT(roboty_geodezyjne.id_roboty) as "suma robót" 
+FROM pracownicy 
+INNER JOIN zespol_roboczy on pracownicy.id_pracownika=zespol_roboczy.id_pracownika 
+INNER JOIN roboty_geodezyjne on roboty_geodezyjne.id_roboty=zespol_roboczy.id_roboty 
+INNER JOIN przebieg_roboty on roboty_geodezyjne.id_roboty=przebieg_roboty.id_roboty 
+WHERE przebieg_roboty.status LIKE "trwa"
+GROUP BY pracownicy.nazwisko 
+ORDER BY COUNT(roboty_geodezyjne.id_roboty) DESC
+
+3. Jacy pracownicy posiadający uprawnienia byli najcaęściej przypisani do zleceń od Mediax Sp. z o.o.?
+
+SELECT pracownicy.imie, pracownicy.nazwisko, COUNT(id_zleceniodawcy) as liczba_zlecen
+FROM pracownicy
+INNER JOIN zespol_roboczy on pracownicy.id_pracownika=zespol_roboczy.id_pracownika
+INNER JOIN roboty_geodezyjne on roboty_geodezyjne.id_roboty=zespol_roboczy.id_roboty
+INNER JOIN przebieg_roboty on roboty_geodezyjne.id_roboty=przebieg_roboty.id_roboty
+WHERE id_zleceniodawcy=3 and pracownicy.zakres_uprawnień NOT LIKE"null"
+GROUP BY pracownicy.nazwisko
+ORDER BY liczba_zlecen DESC
+
+4. Zestawienie robót po KERG według długości wykonania zlecenia lub informacje jak długo jest wykonywane.
+
+SELECT roboty_geodezyjne.KERG_roboty, przebieg_roboty.data_rozpoczecia, przebieg_roboty.data_zakonczenia,
+
+
+(if (
+    DATEDIFF(przebieg_roboty.data_zakonczenia,przebieg_roboty.data_rozpoczecia) is not null, 			DATEDIFF(przebieg_roboty.data_zakonczenia,przebieg_roboty.data_rozpoczecia), 
+    concat("robota w toku od ",DATEDIFF(curdate(),przebieg_roboty.data_rozpoczecia), " dni")
+		)) as czas_trwania_zlecenia
+
+	
+FROM przebieg_roboty
+INNER JOIN roboty_geodezyjne on roboty_geodezyjne.id_roboty=przebieg_roboty.id_roboty 
