@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <html>
+    <head>
+        <title>Zgłaszanie usterki</title>
+        <meta charset="="=utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    </head>
+    <body>
+        <form id="formularz" action="{{ url_for('notification')}}" method="POST">
+            <label for="roomNumber">Room number</label>
+            <input type="text", id="roomNumber" name="roomNumber"><br><br>
+            <label for="amount">Guest name</label>
+            <input type="text" id="name" name="name" value="unknown"><br><br>
+            <textarea name="nazwa" cols="30" rows="6">Opis problemu / Description of problem / </textarea>
+            <label for="priority">Ważność usterki</label>
+            <select name="priority" id="priority">
+                {% for priority in listOfPriorities%}
+                    <option value="{{ priority.code}}" {{'selected' if priority.selected}}>{{priority.description}}</option>
+                    {% endfor %}}
+            <select><br><br>
+            <input type="submit" value = "Send / Wyślij">          
+        </form>
+    </body>
+</html>

@@ -1,0 +1,4 @@
+Aplikacja room do zgłaszania usterek przez gości hotelowych.
+Napisana z użyciem biblioteki Flask, pymysql i flash w utwotrzonym środowisku wirtulanym w Visual Studio Code. Wygląd frontu w html, zupełnie podstawowy, dołączane jako szablony Jinja - formularz.html.Dla uruchomienia aplikacji pliki html muszą być umieszczone w katalogu Templates.
+Gość hotelu zamieszcza wpis z podaniem nr pokoju, swoich danych, własnej oceny ważności złoszenia i opisu problemu. Po wysłaniu formularza gość otrzymuje widok podsumowania formularz_content.html
+Na potrzeby działania została utworzona w MySQL baza danych nazwa room.sql z polami odpowiadającymi formularzowi zgłoszenia + dodatkowo data i godzina wpisu. W bazie danych są zapisywane zgłosenia.

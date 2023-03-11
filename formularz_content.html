@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <html>
+    <head>
+        <title>Potwierdzenie wpisu usterki</title>
+        <meta charset="="=utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    </head>
+    <body>
+        {% for message in get_flashed_messages()%}
+           <div> {{ message}}  </div><!-- iteracja po wiadomościach flash zebranych w pliku cookie -->
+    <!-- flask wybierze odpwiedni i wymaga podania tzw secret key -->
+        {%endfor%}
+        <h1> Wprowadzono wpis usterki o godzinie {{noteTime}} {{hourNow}} </h1>
+        <h1> pokój nr: {{roomNumber}}</h1>
+        <h1> zgłaszający:  {{name}}</h1>
+
+        {% if priority.code =="medium" %}
+        <h1> ważność usterki:  Średnia</h1>
+        {% elif priority.code =="high" %}
+        <h1> ważność usterki:  Wysoka</h1>
+        {% else %}
+        <h1> ważność usterki:  Normalna</h1>
+        {% endif %}
+        <h1> opis usterki:  {{nazwa}}</h1>               
+    </body>
+</html>
