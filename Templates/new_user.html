@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block navbar%}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">AirPol</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+        <a class="nav-link" href={{ url_for('index')}}>Main page <span class="sr-only"></span></a>
+        <li class="nav-item">
+        <a class="nav-link" href={{ url_for('logout')}}>Logout {{session['user'] if 'user' in session}}</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Users
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="{{url_for('users')}}">Users</a>
+            <li><a class="dropdown-item" href="{{url_for('new_user')}}">New user</a>
+          </ul>
+        </li>
+        
+    </ul>
+    </div>
+</nav>
+{% endblock%}
+
+{%block content%}
+
+<div class="mx-auto" style="width: 200px;">
+    New user<br><br>
+    
+      <form id="user_form" action="{{ url_for('new_user')}}" method="POST">
+        <label for="user_name">User name</label>
+        <input type="text", id="user_name" name="user_name" value = "{{user.user_name}}" <br><br>
+        <br><!-- {{user.user_name}} jakby sie powtarzalo wpisywanie to juz będzie wypełnienie-->
+        <label for="user_name">Email</label>
+        <input type="text", id="email" name="email" value = "{{user.email}}" <br><br>
+        <br>
+        <label for="user_pass">Password</label>
+        <input type="password", id="user_pass" name="user_pass" <br><br>
+          
+        <br><button type="submit" class="btn btn-primary">Dodaj/Send</button>
+      </form><br>
+      
+      {% for message in get_flashed_messages()%}
+      {{ message}}  <!-- iteracja po wiadomościach flash zebranych w pliku cookie -->
+    <!-- flask wybierze odpwiedni i wymaga podania tzw secret key -->
+      {%endfor%}
+      </div>
+    {% endblock %}
+    

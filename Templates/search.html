@@ -1,0 +1,63 @@
+<!-- szablon navbar skopiowany z www bootstrapa-->
+<!-- wypełniamy tutaj bloki które nastepnie base.html podczyta-->
+
+{% extends "base.html"%}
+
+{% block title%}
+Samoloty
+{% endblock%}
+
+
+{% block navbar%}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">AirPol</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+        <li class="nav-item active">
+        <a class="nav-link" href={{ url_for("index")}}>Main page<span class="sr-only"></span></a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link" href={{ url_for("add")}}>Add aircraft</a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link" href={{ url_for('search')}}>Search</a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link" href={{ url_for('login')}}>Login</a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link" href={{ url_for('logout')}}>Logout {{session['user'] if 'user' in session}}</a>
+        </li>
+    </ul>
+    </div>
+</nav>
+{% endblock%}
+
+{% block content%}
+{{super () }}
+Wyszukiwanie poprzez kryteria<br><br>
+
+  <form id="formularz" action="{{ url_for('search')}}" method="POST">
+    <label for="model">model</label>
+    <input type="text", id="model" name="model"><br><br>
+    
+    <label for="type">type</label>
+    <input type="text", id="type" name="type"><br><br>
+    
+    <label for="reg">reg</label>
+    <input type="text", id="reg" name="reg"><br><br>
+    
+    <label for="year">year</label>
+    <input type="number", id="year" name="year"><br><br>
+    
+
+    <br><button type="submit" class="btn btn-primary">Wyślij</button>
+  </form><br>
+ <!-- {% for message in get_flashed_messages()%}
+  {{ message}}  iteracja po wiadomościach flash zebranych w pliku cookie -->
+<!-- flask wybierze odpwiedni i wymaga podania tzw secret key 
+  {%endfor%}-->
+{% endblock %}

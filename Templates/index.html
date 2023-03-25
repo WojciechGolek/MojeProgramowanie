@@ -1,0 +1,83 @@
+<!-- szablon navbar skopiowany z www bootstrapa-->
+<!-- wypełniamy tutaj bloki które nastepnie base.html podczyta-->
+
+{% extends "base.html"%}
+
+{% block title%}
+Samoloty
+{% endblock%}
+
+{% block navbar%}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">AirPol</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+        <a class="nav-link" href="#">Main page <span class="sr-only"></span></a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link" href={{'add'}}>Add aircraft</a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link" href={{ url_for('search')}}>Search</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href={{ url_for('login')}}>Login</a>
+        </li>
+        
+        {% if login.is_valid %}
+        <li class="nav-item">
+          <a class="nav-link" href={{ url_for('logout')}}>Logout {{session['user'] if 'user' in session}}</a>
+        </li>
+        {% endif %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Users
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="{{url_for('users')}}">Users</a>
+            <li><a class="dropdown-item" href="{{url_for('new_user')}}">New user</a>
+          </ul>
+        </li>
+        
+    </ul>
+    </div>
+</nav>
+{% endblock%}
+
+{% block content%}
+{% for message in get_flashed_messages()%}
+{{ message}}  <!-- iteracja po wiadomościach flash zebranych w pliku cookie -->
+<!-- flask wybierze odpwiedni i wymaga podania tzw secret key -->
+{%endfor%}
+
+<br><br>Wykaz floty powietrznej linii AirPol<br><br>
+Liczba statków powietrznych {{listLen}}
+
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">model</th>
+        <th scope="col">type</th>
+        <th scope="col">reg</th>
+        <th scope="col">year</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+      {% for pl in databaseList%}
+      <tr>
+        <td scope="row">{{pl[1]}}</td>
+        <td>{{pl[2]}}</td>
+        <td>{{pl[3]}}</td>
+        <td>{{pl[4]}}</td>
+        <td><a href={{url_for('delete',id=pl[0])}} button type="button" class="btn btn-outline-danger">Delete</button>
+        <td><a href={{url_for('edit', id=pl[0])}}  <button type="button" class="btn btn-outline-success">Edit</button>
+        </tr>
+      {%endfor%}
+    </tbody>
+  </table>
+{% endblock %}

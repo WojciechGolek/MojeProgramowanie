@@ -1,0 +1,103 @@
+<!-- szablon navbar skopiowany z www bootstrapa-->
+<!-- wypełniamy tutaj bloki które nastepnie base.html podczyta-->
+
+{% extends "base.html"%}
+
+{% block title%}
+Users
+{% endblock%}
+
+
+{% block navbar%}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">AirPol</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+        <a class="nav-link" href="{{'index'}}">Main page <span class="sr-only"></span></a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link" href={{'add'}}>Add aicraft</a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link" href={{ url_for('search')}}>Search</a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link" href={{ url_for('login')}}>Login</a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link" href={{ url_for('logout')}}>Logout {{session['user'] if 'user' in session}}</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Users
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="{{url_for('users')}}">Users</a>
+            <li><a class="dropdown-item" href="{{url_for('new_user')}}">New user</a>
+          </ul>
+        </li>
+        
+    </ul>
+    </div>
+</nav>
+{% endblock%}
+
+{% block content%}
+{% for message in get_flashed_messages()%}
+{{ message}}  <!-- iteracja po wiadomościach flash zebranych w pliku cookie -->
+<!-- flask wybierze odpwiedni i wymaga podania tzw secret key -->
+{%endfor%}
+
+<br><br>Lista użytkowników<br><br>
+
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">id</th>
+        <th scope="col">User name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Is active</th>
+        <th scope="col">Is admin</th>
+        <th scope="col">Actions</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in users%}
+      <tr>
+        <td scope="row">{{user[0]}}</td>
+        <td>{{user[1]}}</td><!-- user name, bo zapytanie do bazy danych zwraca tuple-->
+        <td>{{user[2]}}</td>
+        <td>
+          <a href={{url_for('user_status_change', action='active', user_name = user[1])}}>
+            {% if user[3] %} <!-- wyswietl element tupli user[3]-->
+              &check; <!-- wyswietl check-->
+            {% else %}
+              &#x25a2; <!-- wyswietl pusty kwadrat-->
+            {% endif %}
+          </a>
+        </td>
+        <td>
+          <a href={{url_for('user_status_change', action='admin', user_name = user[1])}}>
+            {% if user[4] %}
+              &check; <!-- wyswietl check-->
+            {% else %}
+              &#x25a2; <!-- wyswietl pusty kwadrat-->
+            {% endif %}
+          </a>
+        </td>
+        <td><a href={{url_for('edit_user', user_name=user[1])}}  
+          <!-- przekazanie parametru do funkcji edit_user -->
+             <button type="button" class="btn btn-outline-success">Edit</button>
+        <td><a href={{url_for('delete_user',user_name=user[1])}} 
+              button type="button" class="btn btn-outline-danger">Delete</button>
+        </tr>
+      {%endfor%}
+    </tbody>
+  </table>
+{% endblock %}

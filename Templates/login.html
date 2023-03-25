@@ -1,0 +1,28 @@
+<!-- szablon navbar skopiowany z www bootstrapa-->
+<!-- wypełniamy tutaj bloki które nastepnie base.html podczyta-->
+
+{% extends "base.html"%}
+
+{% block title%}
+Logowanie
+{% endblock%}
+
+
+{% block content%}
+{{super () }}
+Strona logowania do bazy samolotów<br><br>
+
+  <form id="formularz" action="{{ url_for('login')}}" method="POST">
+    <label for="user_name">User name</label>
+    <input type="text", id="user_name" name="user_name"><br><br>
+    
+    <label for="user_pass">Password</label>
+    <input type="text", id="user_pass" name="user_pass"><br><br>
+    
+    <br><button type="submit", class="btn btn-primary">Log me</button>
+  </form><br>
+  {% for message in get_flashed_messages()%}
+  {{ message}}  <!-- iteracja po wiadomościach flash zebranych w pliku cookie -->
+<!-- flask wybierze odpwiedni i wymaga podania tzw secret key -->
+  {%endfor%}
+{% endblock %}
