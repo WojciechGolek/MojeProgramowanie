@@ -1,0 +1,52 @@
+
+
+<!-- szablon navbar skopiowany z www bootstrapa-->
+<!-- wypełniamy tutaj bloki które nastepnie base.html podczyta-->
+
+{% extends "base.html"%}
+
+{% block title%}
+Liga piłki nożnej
+{% endblock%}
+
+{% block content%}
+
+<br><br>Liczba zgłoszonych drużyn: {{numberOfTeams}}<br><br>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">lp</th>
+      <th scope="col">team</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for count, team in enumerate(teams)%}
+    <tr>
+      <td scope="row">{{count+1}}</td>
+      <td>{{team}}</td>
+      </tr>
+    {%endfor%}
+  </tbody>
+</table>
+<br>
+<br>Liczba kolejek ligowych: {{(numberOfTeams-1)*2}}, liczba meczów: {{((numberOfTeams-1)*2)*l}}<br><br>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">kolejka</th>
+      <th scope="col">mecze</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for count, match in enumerate(allMatches)%}
+    {%for i in range (0,l)%}
+    <tr>
+      <td scope="row">{{count+1}}</td>
+      <td>{{match[i][0]}} - {{match[i][1]}}</td>
+      </tr>
+    {%endfor%}
+    {%endfor%}
+  </tbody>
+</table>
+{% endblock %}

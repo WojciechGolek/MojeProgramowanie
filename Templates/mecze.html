@@ -1,0 +1,56 @@
+
+<!-- szablon navbar skopiowany z www bootstrapa-->
+<!-- wypełniamy tutaj bloki które nastepnie base.html podczyta-->
+
+{% extends "base.html"%}
+
+{% block title%}
+Liga piłki nożnej
+{% endblock%}
+
+{% block content%}
+  {% for message in get_flashed_messages()%}
+  {{ message}}  <!-- iteracja po wiadomościach flash zebranych w pliku cookie -->
+  <!-- flask wybierze odpwiedni i wymaga podania tzw secret key -->
+  {%endfor%}
+
+<br><br>Kolejki ligowe<br><br>
+
+<table class="table">
+  <thead>
+
+  </thead>
+  <tbody>
+    {% for count, match in enumerate(allMatches) %}
+      <tr><td scope="row"> kolejka {{count+1}}</td></tr>
+        {%for i in range (0,l)%}
+        <tr><td>
+          <form id="formularz" action="{{ url_for('mecze')}}" method="POST" >
+              <div class="input-group">
+              <div class="input-group-prepend">
+              <span class="input-group-text" id="A">{{match[i][0]}}</span>
+              <input type="text" readonly class="form-control-plaintext" value={{match[i][0]}} name = "A" id="A" >
+                <!-- problem jak zrobić żeby pole label brał jako input przy wysłaniu formularza -->         
+                <!-- stąd dwa razy nazwa drużyny -->         
+              <input type="number", id="goalA" name="goalA" class="form-control" required>
+              <input type="number", id = "goalB" name="goalB" class="form-control" required>
+              <input type="text" readonly class="form-control-plaintext" name = "B"  value={{match[i][1]}} id="B">
+
+              <span class="input-group-text" id="B">{{match[i][1]}}</span>
+              <br><button type="submit" class="btn btn-outline-primary" >Dodaj wynik</button>
+            </div>
+          </form><br>
+          </td>
+          </tr>
+        {%endfor%}
+    {%endfor%}
+  </tbody>
+</table>
+
+{% endblock %}
+
+
+
+
+
+

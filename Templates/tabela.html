@@ -1,0 +1,74 @@
+
+
+<!-- szablon navbar skopiowany z www bootstrapa-->
+<!-- wypełniamy tutaj bloki które nastepnie base.html podczyta-->
+
+{% extends "base.html"%}
+
+{% block title%}
+Liga piłki nożnej
+{% endblock%}
+
+
+{% block content%}
+  {% for message in get_flashed_messages()%}
+  {{ message}}  <!-- iteracja po wiadomościach flash zebranych w pliku cookie -->
+  <!-- flask wybierze odpwiedni i wymaga podania tzw secret key -->
+  {%endfor%}
+
+<br>
+<p class="fs-1">Tabela rozgrywek</p>
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">ranking</th>
+        <th scope="col">team</th>
+        <th scope="col">matches</th>
+        <th scope="col">points</th>
+        <th scope="col">goals scored</th>
+        <th scope="col">goals lost</th>
+        <th scope="col">won</th>
+        <th scope="col">draw</th>
+        <th scope="col">lost</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+      {% for pl in databaseList%}
+      <!-- wykystanie szablonów jinja, przekazane jako parametry przy render template -->
+      <tr>
+        <td scope="row">{{pl[00]}}</td>
+        <td>{{pl[1]}}</td>
+        <td>{{pl[2]}}</td>
+        <td>{{pl[3]}}</td>
+        <td>{{pl[4]}}</td>
+        <td>{{pl[5]}}</td>
+        <td>{{pl[6]}}</td>
+        <td>{{pl[7]}}</td>
+        <td>{{pl[8]}}</td>
+        </tr>
+      {%endfor%}
+    </tbody>
+  </table>
+
+  <p class="fs-1">Mecze</p>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for game in allGames%}
+      <tr>
+        <td>{{game[0]}} </td>
+        <td>{{game[1]}} : {{game[2]}} </td>
+        <td>{{game[3]}} </td>
+        </tr>
+      {%endfor%}
+    </tbody>
+  </table>
+  
+{% endblock %}
